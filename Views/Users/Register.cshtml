@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+@using belt1.Models
+@model belt1.Models.RegisterUserModel
+
+<h1>Welcome to the Dojo Activity Center</h1>
+
+@Html.Partial("Login", (LoginUserModel)@ViewBag.LoginUserModel)
+<p>@ViewBag.SuccessMsg</p>
+
+<h1>Register Here</h1>
+
+<div style="width:500px; display:inline-block">
+    <h2>Register</h2>
+    <form asp-controller="Users" asp-action="NewUser" method="post">
+        <label asp-for="FirstName"></label>:
+        <span asp-validation-for="FirstName"></span><br>
+        <input asp-for="FirstName"/><br><br>
+        <label asp-for="LastName"></label>:
+        <span asp-validation-for="LastName"></span><br>
+        <input asp-for="LastName"/><br><br>
+        <label asp-for="Email"></label>:
+        <span asp-validation-for="Email"></span><br>
+        <input asp-for="Email"/><br><br>
+        <label asp-for="Password"></label>:
+        <span asp-validation-for="Password"></span><br>
+        <input asp-for="Password"/><br><br>
+        <label asp-for="PasswordConfirmation"></label>:
+        <span asp-validation-for="PasswordConfirmation"></span><br>
+        <input asp-for="PasswordConfirmation"/><br><br>
+        <button type="submit">Create new User</button>
+    </form>
+</div>

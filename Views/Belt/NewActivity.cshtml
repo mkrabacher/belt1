@@ -1,0 +1,35 @@
+@{
+    ViewData["Title"] = "New Activity";
+}
+@using belt1.Models
+@model belt1.Models.RegisterActivityModel
+
+<h1>Create an Activity!</h1>
+
+<div style="width:500px; display:inline-block">
+    <form asp-controller="Belt" asp-action="CreateActivity" method="post">
+        <label asp-for="Title"></label>:
+        <span asp-validation-for="Title"></span><br>
+        <input asp-for="Title"/><br><br>
+        <label asp-for="Time"></label>:
+        <span asp-validation-for="Time"></span><br>
+        <input type="time" asp-for="Time"/><br><br>
+        <label asp-for="Date"></label>:
+        <span asp-validation-for="Date"></span><br>
+        <input type="date" asp-for="Date"/><br><br>
+        <label asp-for="Duration"></label>:
+        <span asp-validation-for="Duration"></span><br>
+        <input type="number" asp-for="Duration"/>
+        <label asp-for="Metric"></label>:
+        <span asp-validation-for="Metric"></span>
+        <select asp-for="Metric">
+            <option value="Minutes">Minutes</option>
+            <option value="Hours">Hours</option>
+            <option value="Days">Days</option>
+        </select><br><br>
+        <label asp-for="Description"></label>:
+        <span asp-validation-for="Description"></span><br>
+        <textarea asp-for="Description"></textarea><br><br>
+        <button type="submit">Create Activity</button>
+    </form>
+</div>

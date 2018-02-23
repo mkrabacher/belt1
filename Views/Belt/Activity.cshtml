@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+@using belt1.Models
+@model belt1.Models.Activity
+
+<h1>@Model.Title</h1>
+<h3>event coordinator: @Model.CreatorId</h3>
+<h3>Description:</h3>
+<h5>@Model.Description</h5>
+<h3>Participants:</h3>
+@{
+    if(Model.Players.Count == 0)
+    {
+        <h4>No one is participating in this yet.</h4>
+    }
+    else
+    {   
+        foreach(var part in Model.Players)
+        {
+            <p>@part.User.FirstName @part.User.LastName</p>
+        }
+    }
+}
+<hr>
+@{
+    if(Model.Creator.Id == ViewBag.LoggedUser.Id){
+        <td><a href="/DeleteActivity/@Model.Id">Delete</a></td>
+    }
+    else
+    {
+        bool joined = false;
+        foreach(var player in Model.Players)
+        {
+            if(player.UserId == ViewBag.LoggedUser.Id)
+            {
+                joined = true;
+            }
+        }
+        if(joined)
+        {
+            <td><a href="/LeaveActivity/@Model.Id">Leave</a></td>
+        }
+        else
+        {
+            <td><a href="/JoinActivity/@Model.Id">Join</a></td>
+        }
+    }
+}

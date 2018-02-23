@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+<table style="margin-top:50px">
+    <thead>
+        <tr>
+            <th style="min-width:150px">Activity</th>
+            <th style="min-width:150px">Date and Time</th>
+            <th style="min-width:150px">Duration</th>
+            <th style="min-width:150px">Event Coordinator</th>
+            <th style="min-width:200px">Number of Participants</th>
+            <th style="min-width:150px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if(ViewBag.Activities == null)
+            {
+                <h3>No Activities to display</h3>
+            }
+            else
+            {
+                foreach(var activity in ViewBag.Activities)
+                {
+                    string date = String.Format("{0:MM/dd/yyyy}",activity.Date);
+                    string time = String.Format("{0:t}",activity.Time);
+                    <tr>
+                        <td><a href="/activity/@activity.Id">@activity.Title</a></td>
+                        <td>@date @@ @time</td>
+                        <td>@activity.Duration</td>
+                        <td>@activity.Creator.FirstName @activity.Creator.LastName</td>
+                        <td>@activity.Players.Count</td>
+                        @{
+                            if(activity.Creator.Id == ViewBag.LoggedUser.Id){
+                                <td><a href="/DeleteActivity/@activity.Id">Delete</a></td>
+                            }
+                            else
+                            {
+                                bool joined = false;
+                                foreach(var player in activity.Players)
+                                {
+                                    if(player.UserId == ViewBag.LoggedUser.Id)
+                                    {
+                                        joined = true;
+                                    }
+                                }
+                                if(joined)
+                                {
+                                    <td><a href="/LeaveActivity/@activity.Id">Leave</a></td>
+                                }
+                                else
+                                {
+                                    <td><a href="/JoinActivity/@activity.Id">Join</a></td>
+                                }
+                            }
+                        }
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table><br>
+<hr>
+<form action="/NewActivity" method="get">
+    <input type="submit" value="Add New Activity!">
+</form>

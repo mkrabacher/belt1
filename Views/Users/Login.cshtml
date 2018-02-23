@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Contact";
+}
+@model belt1.Models.LoginUserModel
+
+<div style="display:inline-block; vertical-align:top;">
+    <h2>Login</h2>
+    <form asp-controller="Users" asp-action="LoginUser" method="post">
+        <label asp-for="LoginEmail"></label>
+        <span asp-validation-for="LoginEmail"></span><br>
+        <input asp-for="LoginEmail"/><br><br>
+        <label asp-for="LoginPassword"></label>
+        <span asp-validation-for="LoginPassword"></span><br>
+        <input asp-for="LoginPassword"/><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <h4>@ViewBag.SuccessMsg</h4>
+</div>
