@@ -24,15 +24,15 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            List<Activity> activities = _context.Activities.Where(act => act.Date < DateTime.Now).ToList();
+            List<Activity> activities = _context.activities.Where(act => act.Date < DateTime.Now).ToList();
             foreach(Activity act in activities)
             {
                 _context.Remove(act);
                 _context.SaveChanges();
             }
 
-            ViewBag.LoggedUser = _context.Users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
-            ViewBag.Activities = _context.Activities.Include("Creator").Include("Players").Where(act => act.Id > 0).ToList();
+            ViewBag.LoggedUser = _context.users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
+            ViewBag.Activities = _context.activities.Include("Creator").Include("Players").Where(act => act.Id > 0).ToList();
             return View("ActivityCenter");
         }
 
@@ -44,7 +44,7 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            ViewBag.LoggedUser = _context.Users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
+            ViewBag.LoggedUser = _context.users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
             return View("NewActivity");
         }
 
@@ -62,7 +62,7 @@ namespace belt1.Controllers
                 return RedirectToAction("RegisterActivity");
             }
             
-            ViewBag.LoggedUser = _context.Users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
+            ViewBag.LoggedUser = _context.users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
             return View("NewActivity", model);
         }
 
@@ -86,9 +86,9 @@ namespace belt1.Controllers
                 Description = TempData["Description"] as string,
                 CreatorId = (int)HttpContext.Session.GetInt32("CurrUserId"),
             };
-            _context.Activities.Add(NewActivity);
+            _context.activities.Add(NewActivity);
             _context.SaveChanges();
-            Activity act = _context.Activities.Last();
+            Activity act = _context.activities.Last();
             return RedirectToAction("Activity", new {act.Id});
         }
 
@@ -100,8 +100,8 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            Activity activity = _context.Activities.Include(act => act.Creator).Include(act => act.Players).ThenInclude(pla => pla.User).SingleOrDefault(act => act.Id == id);
-            ViewBag.LoggedUser = _context.Users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
+            Activity activity = _context.activities.Include(act => act.Creator).Include(act => act.Players).ThenInclude(pla => pla.User).SingleOrDefault(act => act.Id == id);
+            ViewBag.LoggedUser = _context.users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
             return View("Activity", activity);
         }
 
@@ -113,9 +113,9 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            Activity activity = _context.Activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
-            User user = _context.Users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
-            List<UserActivity> ua = _context.UserActivities.Where(use => use.UserId == user.Id && use.ActivityId == id).ToList();
+            Activity activity = _context.activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
+            User user = _context.users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
+            List<UserActivity> ua = _context.useractivities.Where(use => use.UserId == user.Id && use.ActivityId == id).ToList();
             if(ua.Count == 0)
             {
                 UserActivity NewPlayer = new UserActivity()
@@ -127,7 +127,7 @@ namespace belt1.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("ActivityCenter");   
             }
-            ViewBag.LoggedUser = _context.Users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
+            ViewBag.LoggedUser = _context.users.SingleOrDefault(use => use.Id == HttpContext.Session.GetInt32("CurrUserId"));
             return View("Activity", new {id});
         }
 
@@ -139,9 +139,9 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            Activity activity = _context.Activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
-            User user = _context.Users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
-            UserActivity ua = _context.UserActivities.SingleOrDefault(uac => uac.UserId == user.Id && uac.ActivityId == activity.Id);
+            Activity activity = _context.activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
+            User user = _context.users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
+            UserActivity ua = _context.useractivities.SingleOrDefault(uac => uac.UserId == user.Id && uac.ActivityId == activity.Id);
             _context.Remove(ua);
             _context.SaveChanges();
             return RedirectToAction("ActivityCenter");
@@ -155,9 +155,9 @@ namespace belt1.Controllers
             {
                 return RedirectToAction("Index", "Users");
             }
-            Activity activity = _context.Activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
-            User user = _context.Users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
-            List<UserActivity> ua = _context.UserActivities.Where(uac => uac.ActivityId == activity.Id).ToList();
+            Activity activity = _context.activities.Include("Creator").Include("Players").SingleOrDefault(act => act.Id == id);
+            User user = _context.users.SingleOrDefault(use => use.Id == (int)HttpContext.Session.GetInt32("CurrUserId"));
+            List<UserActivity> ua = _context.useractivities.Where(uac => uac.ActivityId == activity.Id).ToList();
             foreach(UserActivity act in ua)
             {
                 _context.Remove(act);

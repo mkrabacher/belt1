@@ -7,8 +7,8 @@ namespace belt1.Models
         // base() calls the parent class' constructor passing the "options" parameter along
         public MyContext(DbContextOptions<MyContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Activity> Activities { get; set; }
-        public DbSet<UserActivity> UserActivities { get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<Activity> activities { get; set; }
+        public DbSet<UserActivity> useractivities { get; set; }
     }
 }

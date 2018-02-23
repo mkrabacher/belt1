@@ -36,7 +36,7 @@ namespace belt1.Controllers
         [Route("NewUser")]
         public IActionResult NewUser(RegisterUserModel model)
         {
-            List<User> email = _context.Users.Where(user => user.Email == model.Email).ToList();
+            List<User> email = _context.users.Where(user => user.Email == model.Email).ToList();
             if(email.Count > 0) {
                 ModelState.AddModelError("Email", "that email is already registered");
             }
@@ -63,7 +63,7 @@ namespace belt1.Controllers
                 Email = TempData["Email"] as string,
                 Password = TempData["Password"] as string,
             };
-            _context.Users.Add(NewUser);
+            _context.users.Add(NewUser);
             _context.SaveChanges();
             ViewBag.SuccessMsg = "You've successfully created your account. Now log on in.";
             return View("Register");
@@ -80,7 +80,7 @@ namespace belt1.Controllers
         [Route("LoginUser")]
         public IActionResult LoginUser(LoginUserModel model)
         {
-            List<User> email = _context.Users.Where(user => user.Email == model.LoginEmail).ToList();
+            List<User> email = _context.users.Where(user => user.Email == model.LoginEmail).ToList();
             if(email.Count == 0) {
                 ModelState.AddModelError("LoginEmail", "that email doesn't exist");
             }

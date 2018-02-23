@@ -43,6 +43,7 @@ namespace belt1
 
             if (env.IsDevelopment())
             {
+                loggerFactory.AddConsole();
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
             }
